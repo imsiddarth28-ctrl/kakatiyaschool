@@ -303,7 +303,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   return (
-    <div ref={containerRef} id="home" className="relative w-full h-[320vh] sm:h-[550vh] bg-slate-950">
+    <div ref={containerRef} id="home" className="relative w-full h-[600vh] bg-slate-950">
       {/* Sticky Viewport fixed for mobile dynamic URL bars */}
       <div className="sticky top-0 left-0 w-full h-screen h-[100dvh] overflow-hidden">
         {/* Preloader */}
