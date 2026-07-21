@@ -11,7 +11,6 @@ const getFrameUrl = (index: number) => {
   return `/frames/frame_${paddedIndex}.png`;
 };
 
-// Simplified main titles only (No badges, subtitles, or extra buttons)
 const MAIN_TITLES = [
   { start: 5, end: 50, title: "Kakatiya Olympiad School" },
   { start: 60, end: 110, title: "Where Curiosity Meets Excellence" },
@@ -47,7 +46,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
         isUnlocked = true;
         setIsPreloaded(true);
       }
-    }, 2500);
+    }, 2000);
 
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
@@ -58,7 +57,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
         const percent = Math.floor((loadedCount / TOTAL_FRAMES) * 100);
         setLoadingProgress(percent);
 
-        if (!isUnlocked && (loadedCount >= 15 || percent >= 10)) {
+        if (!isUnlocked && (loadedCount >= 8 || percent >= 5)) {
           isUnlocked = true;
           setIsPreloaded(true);
         }
@@ -129,19 +128,20 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       offsetX = (width - drawWidth) / 2;
     }
 
-    const parallaxX = mouseRef.current.x * 12;
-    const parallaxY = mouseRef.current.y * 10;
+    const parallaxX = mouseRef.current.x * 8;
+    const parallaxY = mouseRef.current.y * 6;
 
     ctx.clearRect(0, 0, width, height);
     ctx.save();
     ctx.translate(parallaxX, parallaxY);
-    ctx.drawImage(imgToDraw, offsetX - 5, offsetY - 5, drawWidth + 10, drawHeight + 10);
+    ctx.drawImage(imgToDraw, offsetX - 4, offsetY - 4, drawWidth + 8, drawHeight + 8);
     ctx.restore();
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const isMobile = window.innerWidth < 768;
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       if (canvasRef.current) {
         canvasRef.current.width = window.innerWidth * dpr;
         canvasRef.current.height = window.innerHeight * dpr;
@@ -165,7 +165,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       const totalScrollableHeight = rect.height - window.innerHeight;
       const scrolled = -rect.top;
 
-      setHasScrolled(scrolled > 30);
+      setHasScrolled(scrolled > 20);
 
       let progress = Math.max(0, Math.min(1, scrolled / totalScrollableHeight));
       const targetFrame = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
@@ -187,9 +187,12 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     const loop = () => {
       if (!running) return;
 
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+      const lerpFactor = isMobile ? 0.35 : 0.22;
+
       const diff = targetFrameRef.current - currentFrameRef.current;
-      if (Math.abs(diff) > 0.01) {
-        currentFrameRef.current += diff * 0.18;
+      if (Math.abs(diff) > 0.005) {
+        currentFrameRef.current += diff * lerpFactor;
       } else {
         currentFrameRef.current = targetFrameRef.current;
       }
@@ -250,12 +253,12 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     pCanvas.height = window.innerHeight;
 
     const isMobile = window.innerWidth < 768;
-    const numParticles = isMobile ? 20 : 40;
+    const numParticles = isMobile ? 12 : 35;
 
     const particles = Array.from({ length: numParticles }, () => ({
       x: Math.random() * pCanvas.width,
       y: Math.random() * pCanvas.height,
-      radius: Math.random() * 2 + 0.8,
+      radius: Math.random() * 1.8 + 0.6,
       color: Math.random() > 0.5 ? "rgba(212, 175, 55, " : "rgba(100, 160, 255, ",
       alpha: Math.random() * 0.4 + 0.2,
       speedX: (Math.random() - 0.5) * 0.3,
@@ -294,30 +297,30 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   return (
-    <div ref={containerRef} id="home" className="relative w-full h-[550vh] bg-slate-950">
+    <div ref={containerRef} id="home" className="relative w-full h-[400vh] sm:h-[550vh] bg-slate-950">
       {/* Sticky Viewport */}
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden touch-pan-y">
         {/* Preloader */}
         <AnimatePresence>
           {!isPreloaded && (
             <motion.div
-              exit={{ opacity: 0, transition: { duration: 0.6 } }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
               className="absolute inset-0 z-50 bg-[#0C2340] flex flex-col items-center justify-center p-6 text-white"
             >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-amber-600 p-0.5 animate-spin mb-5 shadow-lg">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-amber-600 p-0.5 animate-spin mb-4 shadow-lg">
                 <div className="w-full h-full bg-[#0C2340] rounded-[14px] flex items-center justify-center">
-                  <Compass className="w-7 h-7 text-[#D4AF37]" />
+                  <Compass className="w-6 h-6 text-[#D4AF37]" />
                 </div>
               </div>
 
-              <h2 className="text-lg sm:text-2xl font-black text-white tracking-wide font-heading text-center">
+              <h2 className="text-base sm:text-2xl font-black text-white tracking-wide font-heading text-center">
                 KAKATIYA OLYMPIAD SCHOOL
               </h2>
-              <p className="text-slate-300 text-xs mt-2 tracking-widest uppercase font-semibold">
+              <p className="text-slate-300 text-[10px] sm:text-xs mt-1.5 tracking-widest uppercase font-semibold">
                 Initializing Hero Experience
               </p>
 
-              <div className="w-48 sm:w-64 h-1.5 bg-slate-800 rounded-full mt-5 overflow-hidden">
+              <div className="w-40 sm:w-64 h-1.5 bg-slate-800 rounded-full mt-4 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-[#D4AF37] to-amber-400 transition-all duration-200"
                   style={{ width: `${loadingProgress}%` }}
@@ -341,7 +344,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
 
         {/* Background Overlay Tint (0.1 opacity after scroll) */}
         <div
-          className={`absolute inset-0 pointer-events-none bg-[#0C2340] transition-opacity duration-700 z-15 ${
+          className={`absolute inset-0 pointer-events-none bg-[#0C2340] transition-opacity duration-500 z-15 ${
             hasScrolled ? "opacity-10" : "opacity-0"
           }`}
         />
@@ -353,14 +356,14 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
             {activeTextIndex !== null && (
               <motion.div
                 key={activeTextIndex}
-                initial={{ opacity: 0, y: 30, filter: "blur(12px)", scale: 0.96 }}
+                initial={{ opacity: 0, y: 20, filter: "blur(8px)", scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-                exit={{ opacity: 0, y: -30, filter: "blur(12px)", scale: 1.04 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-4xl text-center flex flex-col items-center pointer-events-auto px-4"
+                exit={{ opacity: 0, y: -20, filter: "blur(8px)", scale: 1.04 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-4xl text-center flex flex-col items-center pointer-events-auto px-2 sm:px-4"
               >
                 {/* Main Heading Text Only */}
-                <h1 className="text-3xl sm:text-6xl md:text-7xl font-black text-white tracking-tight font-heading leading-tight drop-shadow-[0_10px_25px_rgba(0,0,0,0.85)]">
+                <h1 className="text-2xl sm:text-6xl md:text-7xl font-black text-white tracking-tight font-heading leading-tight drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)]">
                   {activeTextIndex === 0 ? (
                     <>
                       <span className="block text-gradient-gold-light">KAKATIYA</span>
@@ -376,18 +379,18 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none">
-          <span className="text-[10px] font-bold tracking-widest text-slate-300 uppercase opacity-90 drop-shadow-md">
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 pointer-events-none">
+          <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-slate-300 uppercase opacity-90 drop-shadow-md">
             Scroll To Discover Story
           </span>
-          <div className="w-5 h-9 rounded-full border-2 border-slate-300/50 p-1 flex justify-center backdrop-blur-sm">
+          <div className="w-4 sm:w-5 h-8 sm:h-9 rounded-full border-2 border-slate-300/50 p-1 flex justify-center backdrop-blur-sm">
             <motion.div
-              animate={{ y: [0, 12, 0] }}
+              animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-              className="w-1.5 h-2 rounded-full bg-[#D4AF37]"
+              className="w-1 sm:w-1.5 h-1.5 sm:h-2 rounded-full bg-[#D4AF37]"
             />
           </div>
-          <ChevronDown className="w-4 h-4 text-slate-300 animate-bounce" />
+          <ChevronDown className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-slate-300 animate-bounce" />
         </div>
       </div>
     </div>
