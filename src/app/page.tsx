@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import SplitText from "@/components/reactbits/SplitText";
 import AuroraHero from "@/components/reactbits/AuroraHero";
+import MagicTilt from "@/components/reactbits/MagicTilt";
 import Link from "next/link";
 import {
   BookOpen,
@@ -100,11 +101,11 @@ export default function Home() {
           subtitle="Explore our institutional portals below after experiencing the cinematic storytelling sequence."
         />
 
-        {/* Executive Page Directory Hub with React Bits Spotlight Cards */}
+        {/* Executive Page Directory Hub with React Bits Magic Tilt & Spotlight Cards */}
         <section className="py-24 bg-slate-50 text-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0C2340] text-xs font-bold uppercase tracking-widest">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0C2340] text-xs font-bold uppercase tracking-widest shadow-sm">
                 <Sparkles className="w-4 h-4 text-[#B8860B]" />
                 <SplitText text="Explore Kakatiya Ecosystem" />
               </div>
@@ -118,37 +119,39 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 8 React Bits Spotlight Cards Grid */}
+            {/* 8 React Bits Magic Tilt + Spotlight Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {PAGE_DIRECTORY.map((portal) => {
                 const IconComponent = portal.icon;
                 return (
                   <Link key={portal.href} href={portal.href}>
-                    <SpotlightCard className="group p-6 rounded-3xl bg-white border border-slate-200 hover:border-[#D4AF37] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full hover:-translate-y-1.5">
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-2xl bg-[#0C2340] text-amber-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                            <IconComponent className="w-6 h-6" />
+                    <MagicTilt className="h-full">
+                      <SpotlightCard className="group p-6 rounded-3xl bg-white border border-slate-200 hover:border-[#D4AF37] shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between h-full hover:-translate-y-1">
+                        <div>
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="w-12 h-12 rounded-2xl bg-[#0C2340] text-amber-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                              <IconComponent className="w-6 h-6" />
+                            </div>
+                            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-[#B8860B] border border-amber-200">
+                              {portal.badge}
+                            </span>
                           </div>
-                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-[#B8860B] border border-amber-200">
-                            {portal.badge}
-                          </span>
+
+                          <h3 className="text-xl font-bold font-heading text-[#0C2340] group-hover:text-[#B8860B] transition-colors mb-1">
+                            {portal.title}
+                          </h3>
+
+                          <p className="text-xs text-slate-500 leading-relaxed mb-6">
+                            {portal.subtitle}
+                          </p>
                         </div>
 
-                        <h3 className="text-xl font-bold font-heading text-[#0C2340] group-hover:text-[#B8860B] transition-colors mb-1">
-                          {portal.title}
-                        </h3>
-
-                        <p className="text-xs text-slate-500 leading-relaxed mb-6">
-                          {portal.subtitle}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center justify-between text-xs font-bold text-[#0C2340] group-hover:text-[#B8860B] pt-4 border-t border-slate-100">
-                        <span>Load Dedicated Page</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </SpotlightCard>
+                        <div className="flex items-center justify-between text-xs font-bold text-[#0C2340] group-hover:text-[#B8860B] pt-4 border-t border-slate-100">
+                          <span>Load Dedicated Page</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform text-[#D4AF37]" />
+                        </div>
+                      </SpotlightCard>
+                    </MagicTilt>
                   </Link>
                 );
               })}

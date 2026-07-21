@@ -11,7 +11,7 @@ interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function SpotlightCard({
   children,
   className = "",
-  spotlightColor = "rgba(255, 201, 60, 0.15)",
+  spotlightColor = "rgba(212, 175, 55, 0.22)",
   ...props
 }: SpotlightCardProps) {
   const divRef = useRef<HTMLDivElement>(null);
@@ -33,14 +33,15 @@ export default function SpotlightCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative overflow-hidden ${className}`}
+      className={`relative overflow-hidden transition-all duration-300 ${className}`}
       {...props}
     >
+      {/* Magnetic Gold Radial Spotlight Tracking Cursor */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 40%)`,
+          background: `radial-gradient(500px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 45%)`,
         }}
       />
       {children}

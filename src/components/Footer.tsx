@@ -53,13 +53,13 @@ export default function Footer({ onOpenAdmissions }: { onOpenAdmissions?: () => 
                   KAKATIYA
                 </span>
                 <span className="block text-xs font-bold tracking-widest uppercase text-amber-300">
-                  Olympiad School
+                  Olympiad School • Nizamabad
                 </span>
               </div>
             </div>
 
             <p className="text-slate-300 text-sm leading-relaxed font-normal">
-              Pioneering international standard STEM education, competitive Olympiad training, and ethical leadership development for the innovators of tomorrow.
+              Pioneering international standard STEM education, competitive Olympiad training, and ethical leadership development for students in Nizamabad, Telangana.
             </p>
 
             <div className="flex items-center gap-3 text-amber-400">
@@ -120,17 +120,17 @@ export default function Footer({ onOpenAdmissions }: { onOpenAdmissions?: () => 
             <div className="space-y-3 text-xs sm:text-sm text-slate-300">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                <span>Kakatiya Olympiad Campus, Prime Knowledge Corridor, Hyderabad, TS 500081</span>
+                <span>Kakatiya Olympiad School, Pragathi Nagar, Nizamabad, Telangana 503001</span>
               </div>
 
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>+91 98765 43210 / +91 040 2345 6789</span>
+                <span>+91 8462 234567 / +91 98765 43210</span>
               </div>
 
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>admissions@kakatiyaolympiad.edu.in</span>
+                <span>admissions.nizamabad@kakatiyaolympiad.edu.in</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -143,7 +143,7 @@ export default function Footer({ onOpenAdmissions }: { onOpenAdmissions?: () => 
           {/* Col 4: Location Map Card (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 font-heading">
-              Campus Location
+              Nizamabad Campus
             </h4>
             <div className="rounded-2xl p-4 bg-white/5 border border-white/10 space-y-3 relative overflow-hidden group">
               <div className="h-28 rounded-xl bg-slate-900 border border-white/10 relative flex items-center justify-center overflow-hidden">
@@ -151,7 +151,7 @@ export default function Footer({ onOpenAdmissions }: { onOpenAdmissions?: () => 
                 <div className="relative z-10 text-center space-y-1">
                   <MapPin className="w-7 h-7 text-amber-400 mx-auto animate-bounce" />
                   <span className="text-[11px] font-bold text-white block">
-                    Kakatiya Olympiad Main Campus
+                    Kakatiya Olympiad Nizamabad Campus
                   </span>
                 </div>
               </div>
@@ -169,9 +169,9 @@ export default function Footer({ onOpenAdmissions }: { onOpenAdmissions?: () => 
 
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© 2026 Kakatiya Olympiad School. All Rights Reserved.</p>
+          <p>© 2026 Kakatiya Olympiad School, Nizamabad. All Rights Reserved.</p>
           <div className="flex items-center gap-1">
-            <span>Crafted for Educational Supremacy</span>
+            <span>Crafted for Educational Supremacy in Nizamabad</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
           </div>
         </div>
