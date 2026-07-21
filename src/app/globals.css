@@ -15,15 +15,25 @@
   }
 }
 
-body {
+html, body {
   font-family: var(--font-body);
   background-color: #F8FAFC;
   color: #0F172A;
   overflow-x: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+}
+
+/* Mobile responsive typography adjustments */
+@media (max-width: 640px) {
+  h1 {
+    word-break: break-word;
+  }
 }
 
 /* Luxury Glassmorphism Utilities */
@@ -62,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -71,7 +81,7 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
