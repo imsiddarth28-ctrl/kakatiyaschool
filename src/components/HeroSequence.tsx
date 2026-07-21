@@ -120,21 +120,27 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     let offsetX = 0;
     let offsetY = 0;
 
+    // Guarantee 100% full coverage on tall mobile screens without blank background bleed
     if (canvasRatio > imgRatio) {
+      drawWidth = width;
       drawHeight = width / imgRatio;
       offsetY = (height - drawHeight) / 2;
     } else {
+      drawHeight = height;
       drawWidth = height * imgRatio;
       offsetX = (width - drawWidth) / 2;
     }
 
-    const parallaxX = mouseRef.current.x * 8;
-    const parallaxY = mouseRef.current.y * 6;
+    const isMobile = width < 768;
+    const parallaxX = isMobile ? 0 : mouseRef.current.x * 8;
+    const parallaxY = isMobile ? 0 : mouseRef.current.y * 6;
 
-    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "#091428";
+    ctx.fillRect(0, 0, width, height);
+
     ctx.save();
     ctx.translate(parallaxX, parallaxY);
-    ctx.drawImage(imgToDraw, offsetX - 4, offsetY - 4, drawWidth + 8, drawHeight + 8);
+    ctx.drawImage(imgToDraw, offsetX - 2, offsetY - 2, drawWidth + 4, drawHeight + 4);
     ctx.restore();
   }, []);
 
@@ -297,9 +303,9 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   return (
-    <div ref={containerRef} id="home" className="relative w-full h-[400vh] sm:h-[550vh] bg-slate-950">
-      {/* Sticky Viewport */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden touch-pan-y">
+    <div ref={containerRef} id="home" className="relative w-full h-[320vh] sm:h-[550vh] bg-slate-950">
+      {/* Sticky Viewport fixed for mobile dynamic URL bars */}
+      <div className="sticky top-0 left-0 w-full h-screen h-[100dvh] overflow-hidden">
         {/* Preloader */}
         <AnimatePresence>
           {!isPreloaded && (
