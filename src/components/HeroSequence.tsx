@@ -33,6 +33,8 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   const [isPreloaded, setIsPreloaded] = useState(false);
   const [activeTextIndex, setActiveTextIndex] = useState<number | null>(0);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [isMobileFixed, setIsMobileFixed] = useState(false);
+  const [isMobileFinished, setIsMobileFinished] = useState(false);
 
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
 
@@ -223,12 +225,16 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     };
   }, [renderFrame]);
 
+  // Touch handling for mobile smooth scroll scrub
+  const touchStartY = useRef<number | null>(null);
+  const touchStartScrollTop = useRef<number>(0);
+
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const normX = (e.clientX / window.innerWidth) * 2 - 1;
-      const normY = (e.clientY / window.innerHeight) * 2 - 1;
-      mouseRef.current.targetX = normX;
-      mouseRef.current.targetY = normY;
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        touchStartY.current = e.touches[0].clientY;
+        touchStartScrollTop.current = window.scrollY;
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -241,10 +247,14 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", (e) => {
+      mouseRef.current.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.targetY = (e.clientY / window.innerHeight) * 2 - 1;
+    });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
@@ -303,7 +313,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   return (
-    <div ref={containerRef} id="home" className="relative w-full h-[650vh] bg-slate-950">
+    <div ref={containerRef} id="home" className="relative w-full h-[450vh] md:h-[600vh] bg-slate-950">
       {/* Fixed Sticky Viewport for Mobile & iOS position:sticky compatibility */}
       <div className="sticky top-0 left-0 w-full h-screen h-[100dvh] overflow-hidden z-10 transform-none">
         {/* Preloader */}
