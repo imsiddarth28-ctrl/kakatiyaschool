@@ -12,11 +12,10 @@ const getFrameUrl = (index: number) => {
 };
 
 const MAIN_TITLES = [
-  { start: 2, end: 22, title: "Kakatiya Olympiad School" },
-  { start: 26, end: 46, title: "Where Curiosity Meets Excellence" },
-  { start: 50, end: 70, title: "Learning Beyond Classrooms" },
-  { start: 74, end: 92, title: "Inspiring Future Leaders" },
-  { start: 96, end: 108, title: "Admissions Open 2026-27" },
+  { start: 2, end: 25, title: "Kakatiya Olympiad School" },
+  { start: 28, end: 52, title: "Where Curiosity Meets Excellence" },
+  { start: 56, end: 80, title: "Learning Beyond Classrooms" },
+  { start: 84, end: 108, title: "Admissions Open 2026-27" },
 ];
 
 export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: () => void }) {
