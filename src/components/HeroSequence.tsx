@@ -327,9 +327,9 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   return (
-    <div ref={containerRef} id="home" className="relative w-full h-[450vh] md:h-[600vh] bg-slate-950">
-      {/* Fixed Sticky Viewport for Mobile & iOS position:sticky compatibility */}
-      <div className="sticky top-0 left-0 w-full h-screen h-[100dvh] overflow-hidden z-10 transform-none">
+    <div ref={containerRef} id="home" className="relative w-full h-[500vh] bg-slate-950">
+      {/* Sticky Viewport Container - explicit top-0 h-screen */}
+      <div className="sticky top-0 left-0 w-full h-screen h-[100dvh] overflow-hidden z-10">
         {/* Preloader */}
         <AnimatePresence>
           {!isPreloaded && (

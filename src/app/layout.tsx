@@ -55,7 +55,7 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakarta.variable} ${inter.variable} ${poppins.variable} scroll-smooth antialiased`}
     >
-      <body className="bg-slate-950 font-sans text-slate-100 selection:bg-amber-400 selection:text-slate-950 overflow-x-hidden min-h-screen">
+      <body className="bg-slate-950 font-sans text-slate-100 selection:bg-amber-400 selection:text-slate-950 min-h-screen">
         {children}
       </body>
     </html>
