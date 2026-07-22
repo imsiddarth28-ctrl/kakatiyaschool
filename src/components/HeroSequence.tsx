@@ -393,20 +393,28 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
           </AnimatePresence>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 pointer-events-none">
-          <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-slate-300 uppercase opacity-90 drop-shadow-md">
-            Scroll To Discover Story
-          </span>
-          <div className="w-4 sm:w-5 h-8 sm:h-9 rounded-full border-2 border-slate-300/50 p-1 flex justify-center backdrop-blur-sm">
+        {/* Scroll Indicator - Fades out smoothly when reaching the final animation text */}
+        <AnimatePresence>
+          {activeTextIndex !== MAIN_TITLES.length - 1 && (
             <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-              className="w-1 sm:w-1.5 h-1.5 sm:h-2 rounded-full bg-[#D4AF37]"
-            />
-          </div>
-          <ChevronDown className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-slate-300 animate-bounce" />
-        </div>
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 pointer-events-none"
+            >
+              <span className="text-[9px] sm:text-[10px] font-bold tracking-widest text-slate-300 uppercase opacity-90 drop-shadow-md">
+                Scroll To Discover Story
+              </span>
+              <div className="w-4 sm:w-5 h-8 sm:h-9 rounded-full border-2 border-slate-300/50 p-1 flex justify-center backdrop-blur-sm">
+                <motion.div
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+                  className="w-1 sm:w-1.5 h-1.5 sm:h-2 rounded-full bg-[#D4AF37]"
+                />
+              </div>
+              <ChevronDown className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-slate-300 animate-bounce" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
