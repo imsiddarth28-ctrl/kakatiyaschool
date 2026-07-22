@@ -8,7 +8,7 @@ const TOTAL_FRAMES = 109;
 
 const getFrameUrl = (index: number) => {
   const paddedIndex = String(index + 1).padStart(6, "0");
-  return `/frames/frame_${paddedIndex}.png`;
+  return `/frames/frame_${paddedIndex}.webp`;
 };
 
 const MAIN_TITLES = [
@@ -36,46 +36,6 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   const [isMobileFinished, setIsMobileFinished] = useState(false);
 
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
-
-  useEffect(() => {
-    let loadedCount = 0;
-    const images: HTMLImageElement[] = [];
-    let isUnlocked = false;
-
-    const safetyTimer = setTimeout(() => {
-      if (!isUnlocked) {
-        isUnlocked = true;
-        setIsPreloaded(true);
-      }
-    }, 2000);
-
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
-      const img = new Image();
-      img.src = getFrameUrl(i);
-
-      const checkProgress = () => {
-        loadedCount++;
-        const percent = Math.floor((loadedCount / TOTAL_FRAMES) * 100);
-        setLoadingProgress(percent);
-
-        if (!isUnlocked && (loadedCount >= 8 || percent >= 5)) {
-          isUnlocked = true;
-          setIsPreloaded(true);
-        }
-
-        if (loadedCount === TOTAL_FRAMES) {
-          setIsPreloaded(true);
-        }
-      };
-
-      img.onload = checkProgress;
-      img.onerror = checkProgress;
-      images.push(img);
-    }
-    imagesRef.current = images;
-
-    return () => clearTimeout(safetyTimer);
-  }, []);
 
   const renderFrame = useCallback((frameIdx: number) => {
     const canvas = canvasRef.current;
@@ -121,7 +81,6 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     let offsetX = 0;
     let offsetY = 0;
 
-    // Guarantee 100% full coverage on tall mobile screens without blank background bleed
     if (canvasRatio > imgRatio) {
       drawWidth = width;
       drawHeight = width / imgRatio;
@@ -133,8 +92,8 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     }
 
     const isMobile = width < 768;
-    const parallaxX = isMobile ? 0 : mouseRef.current.x * 8;
-    const parallaxY = isMobile ? 0 : mouseRef.current.y * 6;
+    const parallaxX = isMobile ? 0 : mouseRef.current.x * 6;
+    const parallaxY = isMobile ? 0 : mouseRef.current.y * 4;
 
     ctx.fillStyle = "#091428";
     ctx.fillRect(0, 0, width, height);
@@ -146,9 +105,86 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   useEffect(() => {
+    let loadedCount = 0;
+    const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+    let isUnlocked = false;
+
+    const safetyTimer = setTimeout(() => {
+      if (!isUnlocked) {
+        isUnlocked = true;
+        setIsPreloaded(true);
+      }
+    }, 600);
+
+    const updateProgress = () => {
+      loadedCount++;
+      const percent = Math.floor((loadedCount / TOTAL_FRAMES) * 100);
+      setLoadingProgress(percent);
+
+      if (!isUnlocked && loadedCount >= 1) {
+        isUnlocked = true;
+        setIsPreloaded(true);
+      }
+    };
+
+    // Phase 1: Instant load Frame 0
+    const firstImg = new Image();
+    firstImg.src = getFrameUrl(0);
+    firstImg.onload = () => {
+      images[0] = firstImg;
+      renderFrame(0);
+      updateProgress();
+    };
+    firstImg.onerror = updateProgress;
+    images[0] = firstImg;
+
+    // Phase 2: Keyframe preloading (every 3rd frame)
+    const keyframeIndices: number[] = [];
+    const restIndices: number[] = [];
+
+    for (let i = 1; i < TOTAL_FRAMES; i++) {
+      if (i % 3 === 0) {
+        keyframeIndices.push(i);
+      } else {
+        restIndices.push(i);
+      }
+    }
+
+    const loadFrame = (idx: number) => {
+      const img = new Image();
+      img.src = getFrameUrl(idx);
+      img.onload = updateProgress;
+      img.onerror = updateProgress;
+      images[idx] = img;
+    };
+
+    keyframeIndices.forEach((idx) => loadFrame(idx));
+
+    // Phase 3: Background stream remaining frames in small batches
+    let batchIndex = 0;
+    const batchSize = 6;
+    const streamInterval = setInterval(() => {
+      if (batchIndex >= restIndices.length) {
+        clearInterval(streamInterval);
+        return;
+      }
+      const batch = restIndices.slice(batchIndex, batchIndex + batchSize);
+      batch.forEach((idx) => loadFrame(idx));
+      batchIndex += batchSize;
+    }, 30);
+
+    imagesRef.current = images;
+
+    return () => {
+      clearTimeout(safetyTimer);
+      clearInterval(streamInterval);
+    };
+  }, [renderFrame]);
+
+  useEffect(() => {
     const handleResize = () => {
       const isMobile = window.innerWidth < 768;
-      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.25);
       if (canvasRef.current) {
         canvasRef.current.width = window.innerWidth * dpr;
         canvasRef.current.height = window.innerHeight * dpr;
@@ -198,7 +234,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
 
       const diff = targetFrameRef.current - currentFrameRef.current;
       if (Math.abs(diff) > 0.005) {
-        currentFrameRef.current += diff * 0.22;
+        currentFrameRef.current += diff * 0.35;
       } else {
         currentFrameRef.current = targetFrameRef.current;
       }
@@ -267,7 +303,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     pCanvas.height = window.innerHeight;
 
     const isMobile = window.innerWidth < 768;
-    const numParticles = isMobile ? 12 : 35;
+    const numParticles = isMobile ? 8 : 18;
 
     const particles = Array.from({ length: numParticles }, () => ({
       x: Math.random() * pCanvas.width,
@@ -297,10 +333,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `${p.color}${p.alpha})`;
-        ctx.shadowBlur = isMobile ? 0 : 8;
-        ctx.shadowColor = "#D4AF37";
         ctx.fill();
-        ctx.shadowBlur = 0;
       });
 
       animId = requestAnimationFrame(animateParticles);
