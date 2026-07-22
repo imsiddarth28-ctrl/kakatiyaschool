@@ -180,13 +180,6 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       const targetFrame = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
       targetFrameRef.current = targetFrame;
 
-      const isMobile = typeof window !== "undefined" && (window.innerWidth < 768 || "ontouchstart" in window);
-      if (isMobile) {
-        // Direct 1-to-1 frame sync on mobile for zero scroll lag
-        currentFrameRef.current = targetFrame;
-        renderFrame(targetFrame);
-      }
-
       const activeSeqIndex = MAIN_TITLES.findIndex(
         (seq) => targetFrame >= seq.start && targetFrame <= seq.end
       );
@@ -195,12 +188,8 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("touchmove", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("touchmove", handleScroll);
-    };
-  }, [renderFrame]);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     let running = true;
@@ -208,25 +197,21 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     const loop = () => {
       if (!running) return;
 
-      const isMobile = typeof window !== "undefined" && (window.innerWidth < 768 || "ontouchstart" in window);
-
-      if (!isMobile) {
-        const diff = targetFrameRef.current - currentFrameRef.current;
-        if (Math.abs(diff) > 0.001) {
-          currentFrameRef.current += diff * 0.22;
-        } else {
-          currentFrameRef.current = targetFrameRef.current;
-        }
-
-        mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.05;
-        mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.05;
-
-        const frameToDraw = Math.min(
-          TOTAL_FRAMES - 1,
-          Math.max(0, Math.round(currentFrameRef.current))
-        );
-        renderFrame(frameToDraw);
+      const diff = targetFrameRef.current - currentFrameRef.current;
+      if (Math.abs(diff) > 0.005) {
+        currentFrameRef.current += diff * 0.22;
+      } else {
+        currentFrameRef.current = targetFrameRef.current;
       }
+
+      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.05;
+      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.05;
+
+      const frameToDraw = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.round(currentFrameRef.current))
+      );
+      renderFrame(frameToDraw);
 
       animFrameIdRef.current = requestAnimationFrame(loop);
     };
@@ -327,7 +312,7 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
   }, []);
 
   return (
-    <div ref={containerRef} id="home" className="relative w-full h-[500vh] bg-slate-950">
+    <div ref={containerRef} id="home" className="relative w-full h-[650vh] bg-slate-950">
       {/* Sticky Viewport Container - explicit top-0 h-screen */}
       <div className="sticky top-0 left-0 w-full h-screen h-[100dvh] overflow-hidden z-10">
         {/* Preloader */}
