@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter, Poppins } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Poppins, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -18,6 +18,12 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const viewport = {
@@ -53,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${inter.variable} ${poppins.variable} scroll-smooth antialiased`}
+      className={`${plusJakarta.variable} ${inter.variable} ${poppins.variable} ${cormorant.variable} scroll-smooth antialiased`}
     >
       <body className="bg-slate-950 font-sans text-slate-100 selection:bg-amber-400 selection:text-slate-950 min-h-screen">
         {children}

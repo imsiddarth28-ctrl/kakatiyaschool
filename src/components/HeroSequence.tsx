@@ -376,15 +376,21 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 className="max-w-4xl text-center flex flex-col items-center pointer-events-auto px-2 sm:px-4"
               >
-                {/* Main Heading Text Only */}
-                <h1 className="text-2xl sm:text-6xl md:text-7xl font-black text-white tracking-tight font-heading leading-tight drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)]">
+                {/* Main Heading Text - Elegant Luxury Editorial Serif Typography */}
+                <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-normal font-serif text-white tracking-wide leading-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)]">
                   {activeTextIndex === 0 ? (
                     <>
-                      <span className="block text-gradient-gold-light">KAKATIYA</span>
-                      <span className="text-gradient-gold">OLYMPIAD SCHOOL</span>
+                      <span className="block text-gradient-gold-light font-extrabold tracking-widest font-heading text-2xl sm:text-5xl md:text-6xl mb-1">
+                        KAKATIYA
+                      </span>
+                      <span className="text-gradient-gold italic font-serif text-3xl sm:text-6xl md:text-7xl">
+                        Olympiad School
+                      </span>
                     </>
                   ) : (
-                    MAIN_TITLES[activeTextIndex].title
+                    <span className="italic font-serif text-gradient-gold-light">
+                      {MAIN_TITLES[activeTextIndex].title}
+                    </span>
                   )}
                 </h1>
               </motion.div>
