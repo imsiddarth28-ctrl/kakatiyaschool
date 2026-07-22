@@ -171,8 +171,9 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
       const totalScrollableHeight = rect.height - window.innerHeight;
-      const scrolled = -rect.top;
+      if (totalScrollableHeight <= 0) return;
 
+      const scrolled = -rect.top;
       setHasScrolled(scrolled > 20);
 
       let progress = Math.max(0, Math.min(1, scrolled / totalScrollableHeight));
@@ -186,7 +187,12 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Also trigger on touchmove to guarantee instant frame response during mobile touch drag
+    window.addEventListener("touchmove", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchmove", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -196,10 +202,11 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       if (!running) return;
 
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-      const lerpFactor = isMobile ? 0.35 : 0.22;
+      // On mobile devices, direct snappy tracking (0.85 lerp) prevents laggy frame catching-up behind touch momentum
+      const lerpFactor = isMobile ? 0.85 : 0.22;
 
       const diff = targetFrameRef.current - currentFrameRef.current;
-      if (Math.abs(diff) > 0.005) {
+      if (Math.abs(diff) > 0.001) {
         currentFrameRef.current += diff * lerpFactor;
       } else {
         currentFrameRef.current = targetFrameRef.current;
