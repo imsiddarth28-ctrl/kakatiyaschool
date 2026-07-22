@@ -180,20 +180,27 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
       const targetFrame = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
       targetFrameRef.current = targetFrame;
 
+      const isMobile = typeof window !== "undefined" && (window.innerWidth < 768 || "ontouchstart" in window);
+      if (isMobile) {
+        // Direct 1-to-1 frame sync on mobile for zero scroll lag
+        currentFrameRef.current = targetFrame;
+        renderFrame(targetFrame);
+      }
+
       const activeSeqIndex = MAIN_TITLES.findIndex(
         (seq) => targetFrame >= seq.start && targetFrame <= seq.end
       );
       setActiveTextIndex(activeSeqIndex !== -1 ? activeSeqIndex : null);
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Also trigger on touchmove to guarantee instant frame response during mobile touch drag
     window.addEventListener("touchmove", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("touchmove", handleScroll);
     };
-  }, []);
+  }, [renderFrame]);
 
   useEffect(() => {
     let running = true;
@@ -201,25 +208,25 @@ export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: 
     const loop = () => {
       if (!running) return;
 
-      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-      // On mobile devices, direct snappy tracking (0.85 lerp) prevents laggy frame catching-up behind touch momentum
-      const lerpFactor = isMobile ? 0.85 : 0.22;
+      const isMobile = typeof window !== "undefined" && (window.innerWidth < 768 || "ontouchstart" in window);
 
-      const diff = targetFrameRef.current - currentFrameRef.current;
-      if (Math.abs(diff) > 0.001) {
-        currentFrameRef.current += diff * lerpFactor;
-      } else {
-        currentFrameRef.current = targetFrameRef.current;
+      if (!isMobile) {
+        const diff = targetFrameRef.current - currentFrameRef.current;
+        if (Math.abs(diff) > 0.001) {
+          currentFrameRef.current += diff * 0.22;
+        } else {
+          currentFrameRef.current = targetFrameRef.current;
+        }
+
+        mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.05;
+        mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.05;
+
+        const frameToDraw = Math.min(
+          TOTAL_FRAMES - 1,
+          Math.max(0, Math.round(currentFrameRef.current))
+        );
+        renderFrame(frameToDraw);
       }
-
-      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.05;
-      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.05;
-
-      const frameToDraw = Math.min(
-        TOTAL_FRAMES - 1,
-        Math.max(0, Math.round(currentFrameRef.current))
-      );
-      renderFrame(frameToDraw);
 
       animFrameIdRef.current = requestAnimationFrame(loop);
     };
