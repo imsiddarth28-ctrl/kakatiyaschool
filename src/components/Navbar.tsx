@@ -68,8 +68,8 @@ export default function Navbar({ onOpenAdmissions }: { onOpenAdmissions?: () => 
             <div
               className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 shadow-md ${
                 isHomePage && !isScrolled
-                  ? "bg-gradient-to-br from-[#D4AF37] to-amber-600 text-slate-950 shadow-amber-500/30 group-hover:scale-105"
-                  : "bg-[#0C2340] text-amber-400 shadow-slate-900/10 group-hover:scale-105"
+                  ? "bg-gradient-to-br from-[#C5A059] to-[#9A7732] text-slate-950 shadow-amber-500/20 group-hover:scale-105"
+                  : "bg-[#0B132B] text-[#C5A059] shadow-slate-900/10 group-hover:scale-105"
               }`}
             >
               <GraduationCap className="w-6 h-6" />
@@ -77,14 +77,14 @@ export default function Navbar({ onOpenAdmissions }: { onOpenAdmissions?: () => 
             <div>
               <span
                 className={`block font-black text-lg sm:text-xl tracking-tight font-heading leading-tight transition-colors ${
-                  isHomePage && !isScrolled ? "text-white drop-shadow-md" : "text-[#0C2340]"
+                  isHomePage && !isScrolled ? "text-white drop-shadow-md" : "text-[#0B132B]"
                 }`}
               >
                 KAKATIYA
               </span>
               <span
                 className={`block text-[10px] sm:text-xs font-bold tracking-widest uppercase transition-colors ${
-                  isHomePage && !isScrolled ? "text-amber-300 drop-shadow-sm" : "text-[#D4AF37]"
+                  isHomePage && !isScrolled ? "text-[#F4E8C1] drop-shadow-sm" : "text-[#C5A059]"
                 }`}
               >
                 Olympiad School
@@ -107,7 +107,7 @@ export default function Navbar({ onOpenAdmissions }: { onOpenAdmissions?: () => 
                   className={`relative px-3.5 py-2 text-xs xl:text-sm font-semibold transition-all rounded-full group ${
                     isHomePage && !isScrolled
                       ? isActive
-                        ? "text-amber-300 font-black bg-white/20 border border-amber-400/50 shadow-sm"
+                        ? "text-[#F4E8C1] font-black bg-white/20 border border-[#C5A059]/50 shadow-sm"
                         : "text-white hover:text-amber-300 hover:bg-white/10"
                       : isActive
                       ? "text-[#0C2340] font-black bg-slate-100/90 border border-slate-300/60"

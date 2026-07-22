@@ -43,12 +43,12 @@ export function AuroraHero({
 
   return (
     <section
-      className={cn("aurora-hero-wrapper w-full min-h-[400px] py-20 relative overflow-hidden bg-[#0C2340] text-white", className)}
+      className={cn("aurora-hero-wrapper w-full min-h-[400px] py-20 relative overflow-hidden bg-[#070D1E] text-white", className)}
       {...props}
     >
       <style>{`
         .aurora-hero-wrapper {
-          --stripe-color: #0C2340;
+          --stripe-color: #070D1E;
           --bg-filter: blur(14px) opacity(65%) saturate(180%);
           font-family: var(--font-heading), sans-serif;
         }
@@ -71,11 +71,11 @@ export function AuroraHero({
           );
           --rainbow: repeating-linear-gradient(
             100deg, 
-            #0C2340 10%, 
-            #D4AF37 15%, 
-            #1E3A8A 20%, 
-            #B8860B 25%, 
-            #0A192F 30%
+            #070D1E 10%, 
+            #C5A059 15%, 
+            #1C2D42 20%, 
+            #A48038 25%, 
+            #0B132B 30%
           );
           background-image: var(--stripes), var(--rainbow);
           background-size: 300%, 200%;

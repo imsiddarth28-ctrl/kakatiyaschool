@@ -2,14 +2,14 @@
 
 @layer base {
   :root {
-    --primary-navy: #0C2340;
-    --primary-blue: #1E3A8A;
-    --accent-gold: #D4AF37;
-    --accent-gold-dark: #B8860B;
-    --accent-gold-light: #F7E7CE;
-    --bg-light: #F8FAFC;
-    --text-main: #0F172A;
-    --text-muted: #475569;
+    --primary-navy: #0B132B;
+    --primary-navy-deep: #070D1E;
+    --accent-gold: #C5A059;
+    --accent-gold-dark: #A48038;
+    --accent-gold-light: #F4E8C1;
+    --bg-light: #FAFAFB;
+    --text-main: #0B132B;
+    --text-muted: #4A5568;
     --font-heading: var(--font-plus-jakarta), sans-serif;
     --font-body: var(--font-inter), sans-serif;
   }
@@ -17,8 +17,8 @@
 
 html, body {
   font-family: var(--font-body);
-  background-color: #F8FAFC;
-  color: #0F172A;
+  background-color: #FAFAFB;
+  color: #0B132B;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   width: 100%;
@@ -35,38 +35,38 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Luxury Glassmorphism Utilities */
+/* Bespoke Premium Glassmorphism & Card Utilities */
 .glass-nav-dark {
-  background: rgba(12, 35, 64, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 13, 30, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(197, 160, 89, 0.15);
 }
 
 .glass-nav-white {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 20px -5px rgba(12, 35, 64, 0.05);
+  box-shadow: 0 4px 30px -5px rgba(7, 13, 30, 0.04);
 }
 
 .glass-card-light {
   background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 10px 30px -10px rgba(12, 35, 64, 0.05);
+  border: 1px solid #E9ECEF;
+  box-shadow: 0 12px 36px -10px rgba(11, 19, 43, 0.04);
 }
 
 .glass-card-light:hover {
-  border-color: #D4AF37;
-  box-shadow: 0 20px 40px -12px rgba(12, 35, 64, 0.12);
+  border-color: #C5A059;
+  box-shadow: 0 24px 48px -12px rgba(11, 19, 43, 0.1);
   transform: translateY(-4px);
 }
 
 .glass-card-dark {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(11, 19, 43, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(197, 160, 89, 0.2);
 }
 
 /* Custom Scrollbar */
@@ -84,24 +84,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0C2340;
+  background: #0B132B;
 }
 
-/* Text Gradients */
+/* Rich Metallic Text Gradients */
 .text-gradient-navy {
-  background: linear-gradient(135deg, #0C2340 0%, #1E3A8A 100%);
+  background: linear-gradient(135deg, #0B132B 0%, #1C2D42 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-gold {
-  background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+  background: linear-gradient(135deg, #DFBA73 0%, #C5A059 50%, #9A7732 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-gold-light {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F7E7CE 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #F4E8C1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -110,9 +110,9 @@ h1, h2, h3, h4, h5, h6 {
 .vignette-overlay {
   background: radial-gradient(
     circle at center,
-    transparent 35%,
-    rgba(12, 35, 64, 0.5) 80%,
-    rgba(12, 35, 64, 0.9) 100%
+    transparent 30%,
+    rgba(7, 13, 30, 0.55) 75%,
+    rgba(7, 13, 30, 0.95) 100%
   );
 }
 
