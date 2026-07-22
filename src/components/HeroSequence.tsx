@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Compass } from "lucide-react";
 
-const TOTAL_FRAMES = 240;
+const TOTAL_FRAMES = 109;
 
 const getFrameUrl = (index: number) => {
   const paddedIndex = String(index + 1).padStart(6, "0");
@@ -12,11 +12,11 @@ const getFrameUrl = (index: number) => {
 };
 
 const MAIN_TITLES = [
-  { start: 5, end: 50, title: "Kakatiya Olympiad School" },
-  { start: 60, end: 110, title: "Where Curiosity Meets Excellence" },
-  { start: 120, end: 170, title: "Learning Beyond Classrooms" },
-  { start: 180, end: 210, title: "Inspiring Future Leaders" },
-  { start: 215, end: 238, title: "Admissions Open 2026-27" },
+  { start: 2, end: 22, title: "Kakatiya Olympiad School" },
+  { start: 26, end: 46, title: "Where Curiosity Meets Excellence" },
+  { start: 50, end: 70, title: "Learning Beyond Classrooms" },
+  { start: 74, end: 92, title: "Inspiring Future Leaders" },
+  { start: 96, end: 108, title: "Admissions Open 2026-27" },
 ];
 
 export default function HeroSequence({ onOpenAdmissions }: { onOpenAdmissions?: () => void }) {
